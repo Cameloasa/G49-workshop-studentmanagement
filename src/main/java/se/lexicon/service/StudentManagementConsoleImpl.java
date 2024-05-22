@@ -86,14 +86,14 @@ public class StudentManagementConsoleImpl implements StudentManagement {
         // Update the student's name if it's not null using scanner
         System.out.println("Enter the student's name: ");
 
-        String name = scannerService.getString();
+        String updatedName = scannerService.getString();
 
         // If the student's name is null, do nothing
-
-
-        if (student.getName() != null) {
-            existingStudent.setName(student.getName());
+        // If the user provided a name, update the existing student's name
+        if (!updatedName.isEmpty()) {
+            existingStudent.setName(updatedName);
         }
+
 
         return studentDao.save(existingStudent);
     }
