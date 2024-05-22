@@ -64,9 +64,10 @@ public class StudentManagementConsoleImpl implements StudentManagement {
 
     @Override
     public Student remove(int id) {
-        Optional<Student> optionalStudent = Optional.ofNullable(studentDao.findId(id));
-        if (optionalStudent.isPresent()) {
-           studentDao.delete(id);
+       Student student = studentDao.findId(id);
+        if(student != null) {
+            studentDao.delete(id);
+            return student;
         }
         throw new IllegalArgumentException("Student not found");
     }
@@ -78,11 +79,22 @@ public class StudentManagementConsoleImpl implements StudentManagement {
 
     @Override
     public Student edit(Student student) {
-        Optional<Student> optionalStudent = Optional.ofNullable(studentDao.findId(student.getId()));
-        if (!optionalStudent.isPresent()) throw new IllegalArgumentException("Student not found");
-        if (student.getName() != null) optionalStudent.get().setName(student.getName());
+        Student existingStudent = studentDao.findId(student.getId());
+        if (existingStudent == null) {
+            throw new IllegalArgumentException("Student not found");
+        }
+        // Update the student's name if it's not null using scanner
+        System.out.println("Enter the student's name: ");
 
-        return studentDao.save(optionalStudent.get());
+        String name = scannerService.getString();
 
+        // If the student's name is null, do nothing
+
+
+        if (student.getName() != null) {
+            existingStudent.setName(student.getName());
+        }
+
+        return studentDao.save(existingStudent);
     }
 }
