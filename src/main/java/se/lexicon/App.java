@@ -1,13 +1,17 @@
 package se.lexicon;
 
-/**
- * Hello world!
- *
- */
-public class App 
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import se.lexicon.config.ComponentScanConfig;
+import se.lexicon.data_acces.StudentDao;
+
+public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(ComponentScanConfig.class);
+        StudentDao studentDao = context.getBean(StudentDao.class);
+
     }
 }
