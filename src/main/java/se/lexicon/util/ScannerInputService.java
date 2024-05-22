@@ -9,9 +9,11 @@ import java.util.Scanner;
 public class ScannerInputService implements UserInputService{
 
 
-    Scanner scanner;
+    //Dependency Injection
+    private Scanner scanner;
+    //Constructor
     @Autowired
-    public ScannerInputService() {
+    public ScannerInputService(Scanner scanner) {
         this.scanner = scanner;
     }
 

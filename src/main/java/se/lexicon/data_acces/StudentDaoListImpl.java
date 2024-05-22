@@ -20,17 +20,17 @@ public class StudentDaoListImpl implements StudentDao{
 
     @Override
     public Student save(Student student) {
-
         students.add(student);
         return student;
     }
 
     @Override
     public Student findId(int id) {
-        Optional<Student> optionalStudent = students.stream().
+        return students.stream().
                 filter(student -> student.getId() == id).
-                findFirst();
-       return optionalStudent.orElse(null);
+                findFirst().
+                orElseThrow(() -> new IllegalArgumentException("Student not found"));
+
     }
 
     @Override
@@ -41,11 +41,11 @@ public class StudentDaoListImpl implements StudentDao{
 
     @Override
     public void delete(int id) {
-        Student deleteStudent = findId(id);
-        if (deleteStudent == null) {
-            return;
-        }
-        students.remove(deleteStudent);
+        Optional<Student> optionalStudent = students.stream()
+                .filter(student -> student.getId() == id)
+                .findFirst();
+
+        optionalStudent.ifPresent(students::remove);
 
     }
 }
