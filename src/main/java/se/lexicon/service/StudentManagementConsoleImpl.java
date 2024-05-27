@@ -55,15 +55,15 @@ public class StudentManagementConsoleImpl implements StudentManagement {
 
     @Override
     public Student find(int id) {
-        //Check if the student exists
-        if(studentDao.findId(id) == null) throw new IllegalArgumentException("Student not found");
-        //If the student exists, return the student
-        return studentDao.findId(id);
+        Student student = studentDao.findId(id);
+        if(student == null) throw new IllegalArgumentException("Student not found");
+        return student;
 
     }
 
     @Override
     public Student remove(int id) {
+        //todo, save to a new list
        Student student = studentDao.findId(id);
         if(student != null) {
             studentDao.delete(id);
@@ -79,6 +79,7 @@ public class StudentManagementConsoleImpl implements StudentManagement {
 
     @Override
     public Student edit(Student student) {
+        //todo - look again at this method
         Student existingStudent = studentDao.findId(student.getId());
         if (existingStudent == null) {
             throw new IllegalArgumentException("Student not found");
@@ -88,7 +89,7 @@ public class StudentManagementConsoleImpl implements StudentManagement {
 
         String updatedName = scannerService.getString();
 
-        // If the student's name is null, do nothing
+
         // If the user provided a name, update the existing student's name
         if (!updatedName.isEmpty()) {
             existingStudent.setName(updatedName);

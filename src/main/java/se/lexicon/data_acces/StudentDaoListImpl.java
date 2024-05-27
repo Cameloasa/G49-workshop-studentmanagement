@@ -20,6 +20,12 @@ public class StudentDaoListImpl implements StudentDao{
 
     @Override
     public Student save(Student student) {
+        //Check if the student is already in the list
+        if (students.stream().
+
+                anyMatch(s -> s.getId() == student.getId())) {
+            throw new IllegalArgumentException("Student already exists");
+        }
         students.add(student);
         return student;
     }
